@@ -1,0 +1,27 @@
+class Solution {
+public:
+    bool isCloned(TreeNode* original, TreeNode* cloned){
+        if(original==NULL && cloned ==NULL) return 1;
+        if(original->val!=cloned->val)  return 0;
+        if(!isCloned(original->left,cloned->left )) return 0;
+        if(!isCloned(original->right,cloned->right )) return 0;
+        return 1;
+    } 
+    TreeNode* GetNode(TreeNode* original, TreeNode* cloned, int ss) {
+        
+        if(!cloned)   return NULL;
+        if(cloned->val==ss){
+        
+            if(isCloned(original,cloned))   return cloned;
+        }
+       TreeNode* temp = GetNode(original->left,cloned->left, ss);
+        if(temp)    return temp;
+        temp = GetNode(original->right,cloned->right, ss);
+        return temp;
+    }
+    TreeNode* getTargetCopy(TreeNode* original, TreeNode* cloned, TreeNode* target) {
+       
+        if(original==NULL && cloned==NULL)  return NULL;
+        return GetNode(original, cloned, target->val);
+    }
+};
